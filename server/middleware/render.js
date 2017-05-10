@@ -2,7 +2,6 @@ import path from 'path'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import { StaticRouter } from 'react-router'
-
 import { Provider } from 'react-redux'
 
 const APP_PATH = path.resolve(__dirname, '../..', 'app')
@@ -32,13 +31,13 @@ function handleServerRender(client) {
       dev: ctx.app.env === 'development',
       reduxData: store.getState() || {},
       app: ReactDOMServer.renderToString(
-        <StaticRouter location={ctx.url} context={context}>
-          <Provider store={store}>
+        <Provider store={store}>
+          <StaticRouter location={ctx.url} context={context}>
             <div>
               {routerParse(routerConfig)}
             </div>
-          </Provider>
-        </StaticRouter>
+          </StaticRouter>
+        </Provider>
       )
     }
 

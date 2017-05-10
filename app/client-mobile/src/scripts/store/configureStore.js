@@ -1,12 +1,18 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 // import createHistory from 'history/createBrowserHistory'
-import createHistory from 'history/createMemoryHistory'
+// import createHistory from 'history/createMemoryHistory'
 import { routerReducer, routerMiddleware } from 'react-router-redux'
 import rootReducer from '../reducers'
 
-const history = createHistory()
+let createHistory = () => {}
+if (typeof window === 'undefined') {
+  createHistory = require('history/createMemoryHistory').default
+} else {
+  createHistory = require('history/createBrowserHistory').default
+}
 
+const history = createHistory()
 const createStoreWithMiddleware = applyMiddleware(
   thunk,
   routerMiddleware(history)
