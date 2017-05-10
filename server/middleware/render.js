@@ -46,7 +46,6 @@ function handleServerRender(client) {
   }
 }
 
-
 export default (client) => {
   return async (ctx, next) => {
     let serverRender = handleServerRender(client)
