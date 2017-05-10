@@ -24,8 +24,6 @@ export default (app, client = '') => {
   // render dispatcher
   app.use(render(client))
 
-
-
   // logger
   if (app.env === 'development') {
     app.use(async (ctx, next) => {

@@ -43,7 +43,7 @@ require('asset-require-hook')({
 var Koa = require('koa')
 var webpack = require('webpack')
 var KWM = require('koa-webpack-middleware')
-var middlewareRegister = require(path.resolve(ROOT_PATH, 'server/middleware/register')).default
+var middlewareRegister = require(path.resolve(ROOT_PATH, 'server/middleware')).default
 var config = require('./config').default
 
 var app = new Koa()

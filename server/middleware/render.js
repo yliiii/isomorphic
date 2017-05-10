@@ -3,6 +3,8 @@ import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import { StaticRouter } from 'react-router'
 
+import { Provider } from 'react-redux'
+
 const APP_PATH = path.resolve(__dirname, '../..', 'app')
 const CONTROLLER_PATH = path.resolve(APP_PATH, 'common/controller/src/')
 const MOBILE_PATH = path.resolve(APP_PATH, 'client-mobile/src/scripts')
@@ -10,7 +12,7 @@ const PC_PATH = path.resolve(APP_PATH, 'client-pc/src/scripts')
 
 function handleServerRender(client) {
   let configureStore = () => {}
-  let routerParseCtl = require(path.resolve(CONTROLLER_PATH, 'routerParseCtl')).default
+  let routerParse = require(path.resolve(CONTROLLER_PATH, 'routerParseCtl')).default
   let routerConfig = null
 
   if (client === 'MOBILE') {
@@ -19,17 +21,23 @@ function handleServerRender(client) {
   }
 
   return async (ctx, next) => {
-    let store = configureStore()
+    let store = configureStore({
+      global: {
+        name: 'yli'
+      }
+    })
     let context = {}
     let renderParams = {
       title: '',
       dev: ctx.app.env === 'development',
       reduxData: store.getState() || {},
       app: ReactDOMServer.renderToString(
-        <StaticRouter location={ctx.url} context={context} >
-          <div>
-            {routerParseCtl(routerConfig)}
-          </div>
+        <StaticRouter location={ctx.url} context={context}>
+          <Provider store={store}>
+            <div>
+              {routerParse(routerConfig)}
+            </div>
+          </Provider>
         </StaticRouter>
       )
     }

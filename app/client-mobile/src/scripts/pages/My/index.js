@@ -1,9 +1,16 @@
 import React, { Component as BaseComponent } from 'react'
+import { connect } from 'react-redux'
 
-export default class My extends BaseComponent {
+class My extends BaseComponent {
   render() {
+    const { name } = this.props
+
     return (
-      <div>Hello my world!!!</div>
+      <div>Hello {name || 'my world'}!!!</div>
     )
   }
 }
+
+export default connect((state, ownProps) => ({
+  ...state.global
+}))(My)

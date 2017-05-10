@@ -20,7 +20,6 @@ export const postCssLoader  = {
   }
 }
               
-
 export default {
   output: {
     path: path.join(APP_ROOT_DIR, 'dist'),
