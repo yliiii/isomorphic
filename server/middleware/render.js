@@ -3,11 +3,12 @@ import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import { StaticRouter } from 'react-router'
 
-const CONTROLLER_PATH = path.resolve(__dirname, '../app/common/controller/src/')
-const MOBILE_PATH = path.resolve(__dirname, '../app/client-mobile/src/scripts')
-const PC_PATH = path.resolve(__dirname, '../app/client-pc/src/scripts')
+const APP_PATH = path.resolve(__dirname, '../..', 'app')
+const CONTROLLER_PATH = path.resolve(APP_PATH, 'common/controller/src/')
+const MOBILE_PATH = path.resolve(APP_PATH, 'client-mobile/src/scripts')
+const PC_PATH = path.resolve(APP_PATH, 'client-pc/src/scripts')
 
-export default (client) => {
+function handleServerRender(client) {
   let configureStore = () => {}
   let routerParseCtl = require(path.resolve(CONTROLLER_PATH, 'routerParseCtl')).default
   let routerConfig = null
@@ -34,5 +35,13 @@ export default (client) => {
     }
 
     await ctx.render('index', renderParams) 
+  }
+}
+
+
+export default (client) => {
+  return async (ctx, next) => {
+    let serverRender = handleServerRender(client)
+    await serverRender(ctx, next)
   }
 }

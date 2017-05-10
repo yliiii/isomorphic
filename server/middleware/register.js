@@ -5,9 +5,9 @@ import logger from 'koa-logger'
 import koaOnError from 'koa-onerror'
 import convert from 'koa-convert'
 import Bodyparser from 'koa-bodyparser'
-import router from '../router'
+import render from './render'
 
-const templatePath = path.join(__dirname, './templates')
+const templatePath = path.join(__dirname, '..', 'templates')
 
 export default (app, client = '') => {
   // reg middlewares
@@ -18,11 +18,12 @@ export default (app, client = '') => {
   // template ejs
   app.use(views(templatePath, { extension: 'ejs' }))
 
-  // router dispatcher
-  app.use(router(client))
-
   // 500 error
   koaOnError(app, { template: templatePath + '/500.ejs' })
+
+  // render dispatcher
+  app.use(render(client))
+
 
 
   // logger
