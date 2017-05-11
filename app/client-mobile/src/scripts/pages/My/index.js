@@ -3,10 +3,17 @@ import { connect } from 'react-redux'
 
 class My extends BaseComponent {
   render() {
-    const { name } = this.props
+    const { avatar, nickName, userName } = this.props
 
     return (
-      <div>Hello {name || 'my world'}!!!</div>
+      <div>
+        <div>Hello {nickName || userName || 'my world'}!!!</div>
+          {
+            avatar
+            ? <img src={avatar} alt={nickName || userName} />
+            : null
+          }
+      </div>
     )
   }
 }

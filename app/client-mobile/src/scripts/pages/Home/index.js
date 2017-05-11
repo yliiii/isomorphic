@@ -9,25 +9,27 @@ class Home extends BaseComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { name } = nextProps
+    const { nickName, userName } = nextProps
+  }
+
+  initData = () => {
+    globalActions.getUserInfo({ userId: 23403752 })
   }
 
   render() {
-    const { name } = this.props
+    const { nickName, userName } = this.props
 
     return (
       <div>
         <span onClick={this.handleClick}>Hello world!!!</span>
         <br/>
-        <Link to='/m/my'>{name || '我'}的首页</Link>
+        <Link to='/m/my'>{nickName || userName || '我'}的首页</Link>
       </div>
     )
   }
 
   handleClick = () => {
-    globalActions.getAuthInfo({
-      name: 'yli'
-    })
+    globalActions.getUserInfo({ userId: 23403752 })
   }
 }
 

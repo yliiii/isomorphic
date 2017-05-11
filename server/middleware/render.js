@@ -24,7 +24,7 @@ function handleServerRender(client) {
     let renderParams = {
       title: '',
       dev: ctx.app.env === 'development',
-      reduxData: store.getState() || {},
+      reduxData: store.getState(),
       app: ReactDOMServer.renderToString(
         <Provider store={store}>
           <StaticRouter location={ctx.url} context={context}>

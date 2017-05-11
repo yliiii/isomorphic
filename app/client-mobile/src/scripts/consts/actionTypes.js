@@ -1,3 +1,3 @@
 export default {
-  GET_AUTH_INFO: 'global/GET_AUTH_INFO'
+  GET_USER_INFO: 'global/GET_USER_INFO'
 }
