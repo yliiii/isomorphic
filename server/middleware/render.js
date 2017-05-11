@@ -10,21 +10,16 @@ const MOBILE_PATH = path.resolve(APP_PATH, 'client-mobile/src/scripts')
 const PC_PATH = path.resolve(APP_PATH, 'client-pc/src/scripts')
 
 function handleServerRender(client) {
-  let configureStore = () => {}
+  let store = () => {}
   let routerParse = require(path.resolve(CONTROLLER_PATH, 'routerParseCtl')).default
   let routerConfig = null
 
   if (client === 'MOBILE') {
-    configureStore = require(path.resolve(MOBILE_PATH, 'store/configureStore')).default
+    store = require(path.resolve(MOBILE_PATH, 'store')).default
     routerConfig = require(path.resolve(MOBILE_PATH, 'router/config')).default
   }
 
   return async (ctx, next) => {
-    let store = configureStore({
-      global: {
-        name: 'yli'
-      }
-    })
     let context = {}
     let renderParams = {
       title: '',

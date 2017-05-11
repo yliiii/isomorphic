@@ -1,11 +1,13 @@
 import { handleActions } from 'redux-actions'
+import actionTypes from 'consts/actionTypes'
 
 const initialState = {}
 
 const reducers = handleActions({
-  ['GET_AUTH_INFO'](state, action) {
+  [actionTypes.GET_AUTH_INFO](state, action) {
     return {
-      ...state
+      ...state,
+      ...action.payload
     }
   }
 }, initialState)

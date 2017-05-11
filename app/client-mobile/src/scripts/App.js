@@ -3,12 +3,11 @@ import ReactDOM from 'react-dom'
 import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 import createHistory from 'history/createBrowserHistory'
 import { Provider } from 'react-redux'
-import configureStore from 'store/configureStore'
+import store from 'store'
 
 import routerConfig from 'router/config'
 import routerParse from 'controller/routerParseCtl'
 
-let store = configureStore(window.__REDUX_STATE__)
 let history = createHistory()
 
 ReactDOM.render(
