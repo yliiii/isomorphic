@@ -15,6 +15,18 @@ require('babel-polyfill')
 // Javascript required hook
 require('babel-core/register')({
   plugins: [
+    ["module-resolver", {
+      "alias": {
+        actions: path.resolve(CLIENT === 'MOBILE' ? MOBILE_PATH : PC_PATH, 'src/scripts/actions'),
+        consts: path.resolve(CLIENT === 'MOBILE' ? MOBILE_PATH : PC_PATH, 'src/scripts/consts'),
+        store: path.resolve(CLIENT === 'MOBILE' ? MOBILE_PATH : PC_PATH, 'src/scripts/store'),
+        reducers: path.resolve(CLIENT === 'MOBILE' ? MOBILE_PATH : PC_PATH, 'src/scripts/reducers'),
+        router: path.resolve(CLIENT === 'MOBILE' ? MOBILE_PATH : PC_PATH, 'src/scripts/router'),
+        compontents: path.resolve(CLIENT === 'MOBILE' ? MOBILE_PATH : PC_PATH, 'src/scripts/compontents'),
+        containers: path.resolve(CLIENT === 'MOBILE' ? MOBILE_PATH : PC_PATH, 'src/scripts/containers'),
+        pages: path.resolve(CLIENT === 'MOBILE' ? MOBILE_PATH : PC_PATH, 'src/scripts/pages')
+      }
+    }],
     ['babel-plugin-transform-require-ignore', {
       extensions: ['.styl', '.css']
     }],
