@@ -6,6 +6,11 @@ const ROOT_PATH = path.resolve(__dirname, '../')
 const MOBILE_PATH = path.resolve(__dirname, '../app/client-mobile')
 const PC_PATH = path.resolve(__dirname, '../app/client-pc')
 
+var aliasConfig = {}
+if (CLIENT === 'MOBILE') {
+  aliasConfig = require(path.resolve(MOBILE_PATH, 'build/alias.config'))
+}
+
 process.env.NODE_ENV = ENV
 console.log('Waiting for webpacking ...')
 
@@ -16,16 +21,7 @@ require('babel-polyfill')
 require('babel-core/register')({
   plugins: [
     ["module-resolver", {
-      "alias": {
-        actions: path.resolve(CLIENT === 'MOBILE' ? MOBILE_PATH : PC_PATH, 'src/scripts/actions'),
-        consts: path.resolve(CLIENT === 'MOBILE' ? MOBILE_PATH : PC_PATH, 'src/scripts/consts'),
-        store: path.resolve(CLIENT === 'MOBILE' ? MOBILE_PATH : PC_PATH, 'src/scripts/store'),
-        reducers: path.resolve(CLIENT === 'MOBILE' ? MOBILE_PATH : PC_PATH, 'src/scripts/reducers'),
-        router: path.resolve(CLIENT === 'MOBILE' ? MOBILE_PATH : PC_PATH, 'src/scripts/router'),
-        compontents: path.resolve(CLIENT === 'MOBILE' ? MOBILE_PATH : PC_PATH, 'src/scripts/compontents'),
-        containers: path.resolve(CLIENT === 'MOBILE' ? MOBILE_PATH : PC_PATH, 'src/scripts/containers'),
-        pages: path.resolve(CLIENT === 'MOBILE' ? MOBILE_PATH : PC_PATH, 'src/scripts/pages')
-      }
+      "alias": aliasConfig
     }],
     ['babel-plugin-transform-require-ignore', {
       extensions: ['.styl', '.css']
