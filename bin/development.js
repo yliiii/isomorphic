@@ -6,12 +6,22 @@ const ROOT_PATH = path.resolve(__dirname, '../')
 const MOBILE_PATH = path.resolve(__dirname, '../app/client-mobile')
 const PC_PATH = path.resolve(__dirname, '../app/client-pc')
 
+function extend(target) {
+    var sources = [].slice.call(arguments, 1);
+    sources.forEach(function (source) {
+        for (var prop in source) {
+            target[prop] = source[prop];
+        }
+    });
+    return target;
+}
+
 var aliasConfig = {}
+var baseAliasConfig = require(path.resolve(ROOT_PATH, 'app/build/alias.config.base'))
 if (CLIENT === 'MOBILE') {
   aliasConfig = require(path.resolve(MOBILE_PATH, 'build/alias.config'))
 }
 
-process.env.NODE_ENV = ENV
 console.log('Waiting for webpacking ...')
 
 // Provide custom regenerator runtime and core-js
@@ -21,7 +31,7 @@ require('babel-polyfill')
 require('babel-core/register')({
   plugins: [
     ["module-resolver", {
-      "alias": aliasConfig
+      "alias": extend({}, baseAliasConfig, aliasConfig)
     }],
     ['babel-plugin-transform-require-ignore', {
       extensions: ['.styl', '.css']

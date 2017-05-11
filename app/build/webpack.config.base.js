@@ -3,6 +3,7 @@ import webpack from 'webpack'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import precss from 'precss'
 import autoprefixer from 'autoprefixer'
+import aliasBaseConfig from './alias.config.base'
 
 export const ROOT_DIR = path.resolve(__dirname, '..')
 export const APP_ROOT_DIR = path.resolve(__dirname, '../..')
@@ -30,10 +31,7 @@ export default {
   resolve: {
     modules: ['node_modules'],
     extensions: ['.js', '.styl'],
-    alias: {
-      service: path.join(ROOT_DIR, 'common/service/src'),
-      controller: path.join(ROOT_DIR, 'common/controller/src')
-    }
+    alias: aliasBaseConfig
   },
   module: {
     noParse: /\.min\.js/,
