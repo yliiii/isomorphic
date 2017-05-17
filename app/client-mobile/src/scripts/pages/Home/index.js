@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom'
 
 import globalActions from 'actions/global'
 
-export async function initServerData() {
+export async function initServerData(id) { // server直出初始化数据
   try {
-    let data = await globalActions.getUserInfo({ userId: 111 })
+    let data = await globalActions.getUserInfo({ userId: id || 111 })
     return Promise.resolve(data)
   } catch (e) {
     return Promise.reject(e)
@@ -38,11 +38,14 @@ class Home extends BaseComponent {
     )
   }
 
-  handleClick = () => {
-    initServerData()
+  handleClick = () => {debugger
+    initServerData(333333)
   }
 }
 
-export default connect((state, ownProps) => ({
-  ...state.global
-}))(Home)
+export default connect((state, ownProps) => {
+  debugger
+  return {
+    ...state.global
+  }
+})(Home)

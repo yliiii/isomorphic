@@ -19,8 +19,7 @@ const createStoreWithMiddleware = applyMiddleware(
 let store = createStoreWithMiddleware(combineReducers({
   ...rootReducer,
   router: routerReducer
-}), {})
-export default store
+}), window && window.__REDUX_STATE__ ? window.__REDUX_STATE__ : {})
 
 export function configureStore(initialState = {}) {
   store = createStoreWithMiddleware(combineReducers({
@@ -30,6 +29,8 @@ export function configureStore(initialState = {}) {
 
   return store
 }
+
+export default store
 
 if (module.hot) {
   module.hot.accept('../reducers', () => {
