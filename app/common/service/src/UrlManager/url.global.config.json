@@ -1,4 +1,4 @@
 {
   "module": "global",
-  "getUserInfo": "/user/{userId}/info"
+  "getUserInfo": "/user/{userId}"
 }

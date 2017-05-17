@@ -5,7 +5,7 @@ import logger from 'koa-logger'
 import koaOnError from 'koa-onerror'
 import convert from 'koa-convert'
 import Bodyparser from 'koa-bodyparser'
-import render from './render'
+import router from '../../router'
 
 const templatePath = path.join(__dirname, '..', 'templates')
 
@@ -22,7 +22,7 @@ export default (app, client = '') => {
   koaOnError(app, { template: templatePath + '/500.ejs' })
 
   // render dispatcher
-  app.use(render(client))
+  app.use(router(client))
 
   // logger
   if (app.env === 'development') {

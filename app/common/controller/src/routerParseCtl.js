@@ -33,3 +33,25 @@ function routerPase(config, routerPath) {
 }
 
 export default routerPase
+
+export function matchComponents(config, routerPath) {
+  if (!config || !config.length) return
+
+  let routerMatch = {}
+
+  config.forEach(function(routerConfig) {
+    const { routes, ...routerProp } = routerConfig
+
+    if (routerPath) {
+      routerProp.path = path.join(routerPath, routerProp.path)
+    }
+    
+    routerMatch[routerProp.path] = routerConfig
+
+    if (routes) {
+      routerMatch = { ...routerMatch, ...matchComponents(routes, routerProp.path) }
+    }
+  })
+
+  return routerMatch
+}

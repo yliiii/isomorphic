@@ -11,10 +11,14 @@ export function createApiAction(actionType, func = ()=>{}) {
       dispatch({ type: customActionType, params: params, payload: data });
 
       callback.success && callback.success({ payload: data })
+
+      Promise.resolve(data)
     } catch (e) {
       dispatch({ type: customActionType + '_FAILURE', params: params, payload: e })
       
       callback.failed && callback.failed({ payload: e })
+
+      Promise.reject(e)
     }
   }
 }

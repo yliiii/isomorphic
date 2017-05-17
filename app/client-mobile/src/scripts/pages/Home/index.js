@@ -4,16 +4,26 @@ import { Link } from 'react-router-dom'
 
 import globalActions from 'actions/global'
 
+export async function initServerData() {
+  try {
+    let data = await globalActions.getUserInfo({ userId: 111 })
+    return Promise.resolve(data)
+  } catch (e) {
+    return Promise.reject(e)
+  }
+}
+
 class Home extends BaseComponent {
   componentWillMount() {
+    console.log('----componentWillMount')
+  }
+
+  componentDidMount() {
+    console.log('----componentDidMount')
   }
 
   componentWillReceiveProps(nextProps) {
     const { nickName, userName } = nextProps
-  }
-
-  initData = () => {
-    globalActions.getUserInfo({ userId: 23403752 })
   }
 
   render() {
@@ -29,7 +39,7 @@ class Home extends BaseComponent {
   }
 
   handleClick = () => {
-    globalActions.getUserInfo({ userId: 23403752 })
+    initServerData()
   }
 }
 

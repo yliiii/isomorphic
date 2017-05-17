@@ -1,3 +1,4 @@
+import { getWrappedPromise } from 'controller/promiseCtl'
 import { getApiUrl } from './UrlManager'
 
 const MAX_WAITING_TIME = 30000
@@ -16,19 +17,8 @@ const defaultFetchConfig = {
   credentials: 'include' // Fetch 请求默认是不带 cookie 的，需要设置 fetch(url, {credentials: 'include'})
 }
 
-function getWrappedPromise() {
-  let wrappedPromise = {}
-  let promise = new Promise((resolve, reject) => {
-    wrappedPromise.resolve = resolve
-    wrappedPromise.reject = reject
-  })
-
-  wrappedPromise.then = promise.then.bind(promise)
-  wrappedPromise.catch = promise.catch.bind(promise)
-  wrappedPromise.promise = promise // e.g. if you want to provide somewhere only promise, without .resolve/.reject/.catch methods
-
-  return wrappedPromise
-}
+require('es6-promise').polyfill()
+const iFetch = require('isomorphic-fetch')
 
 export default class BaseApiService {
   fetchApi(api, args, config = {}) {
@@ -42,12 +32,12 @@ export default class BaseApiService {
     }
 
     let wrappedPromise = getWrappedPromise()
-
+    let url = getApiUrl(api, args)
     let timeoutId = setTimeout(() => {
       wrappedPromise.reject(new Error('fetch timeout' + ' ' + url)) // reject on timeout
     }, MAX_WAITING_TIME)
-    
-    fetch(getApiUrl(api, args), {
+    console.log('------------' + url)
+    iFetch(url, {
       ...defaultFetchConfig,
       ...config
     }).then(response => {
@@ -55,7 +45,6 @@ export default class BaseApiService {
       wrappedPromise.resolve(response)
     }).catch(error => {
       clearTimeout(timeoutId)
-
       wrappedPromise.reject(error)
     })
 
