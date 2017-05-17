@@ -49,7 +49,7 @@ function initServerRender(platform) {
 
     if (renderComponent && renderComponent.initData) {
       try {
-        let data = await renderComponent.initData()
+        await renderComponent.initData()
         await responseRender({ store, routerConfig, ctx, next })
       } catch (e) {
         // TODO: 500

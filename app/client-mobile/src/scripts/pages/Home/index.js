@@ -5,12 +5,7 @@ import { Link } from 'react-router-dom'
 import globalActions from 'actions/global'
 
 export async function initServerData(id) { // server直出初始化数据
-  try {
-    let data = await globalActions.getUserInfo({ userId: id || 111 })
-    return Promise.resolve(data)
-  } catch (e) {
-    return Promise.reject(e)
-  }
+  await globalActions.getUserInfo({ userId: id || 111 })
 }
 
 class Home extends BaseComponent {
