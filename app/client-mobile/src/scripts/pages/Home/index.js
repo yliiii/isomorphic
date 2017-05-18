@@ -1,12 +1,7 @@
 import React, { Component as BaseComponent } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-
-import globalActions from 'actions/global'
-
-export async function initServerData(id) { // server直出初始化数据
-  await globalActions.getUserInfo({ userId: id || 111 })
-}
+import { getUserInfo } from './dispatch'
 
 class Home extends BaseComponent {
   componentWillMount() {
@@ -33,14 +28,11 @@ class Home extends BaseComponent {
     )
   }
 
-  handleClick = () => {debugger
-    initServerData(333333)
+  handleClick = () => {
+    getUserInfo(333333)
   }
 }
 
-export default connect((state, ownProps) => {
-  debugger
-  return {
-    ...state.global
-  }
-})(Home)
+export default connect((state, ownProps) => ({
+  ...state.global
+}))(Home)

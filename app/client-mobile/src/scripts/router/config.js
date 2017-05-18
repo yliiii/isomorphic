@@ -1,19 +1,33 @@
+import React from 'react'
 import path from 'path'
-import Home, { initServerData } from '../pages/Home'
-import My from '../pages/My'
-import Error404 from '../pages/Error/404'
+import Bundle from '../components/LazyLoad'
+import HomeData from '../pages/Home/dispatch'
+
+const createComponent = component => () => {
+  return (
+    <Bundle load={component}>
+      { Component => Component ? <Component /> : <div>Loading...</div> }
+    </Bundle>
+  )
+}
 
 export default [
   {
     path: '/m',
     exact: true,
-    component: Home,
-    initData: initServerData,
+    component: (() => typeof __SERVER__ === 'undefined'
+      ? createComponent(require('bundle-loader?lazy&name=home!pages/Home'))
+      : null)(),
+    componentPath: 'pages/Home', // for server render
+    initData: HomeData,
     routes: [
       {
         path: 'my',
         exact: true,
-        component: My
+        component: (() => typeof __SERVER__ === 'undefined'
+          ? createComponent(require('bundle-loader?lazy&name=my!../pages/My'))
+          : null)(),
+        componentPath: 'pages/My' // for server render
       }
     ]
   }

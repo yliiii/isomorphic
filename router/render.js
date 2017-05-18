@@ -1,18 +1,72 @@
 import path from 'path'
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
-import { StaticRouter } from 'react-router'
+import { Route, StaticRouter } from 'react-router'
 import { Provider } from 'react-redux'
 
+// 设置路径
 const APP_PATH = path.resolve(__dirname, '../', 'app')
 const CONTROLLER_PATH = path.resolve(APP_PATH, 'common/controller/src/')
 const MOBILE_PATH = path.resolve(APP_PATH, 'client-mobile/src/scripts')
 const PC_PATH = path.resolve(APP_PATH, 'client-pc/src/scripts')
-const router = require(path.resolve(CONTROLLER_PATH, 'routerParseCtl'))
 
+// 将路由配置转换为<Route>
+let autoKey = 0
+export function routerParse(platform, config, routerPath) {
+  if (!routerPath) autoKey = 0
+  if (!config || !config.length) return
 
-async function responseRender({ store, routerConfig, ctx, next }) {
-  let routerParse = router.default
+  let routerArray = []
+
+  config.forEach(function(routerConfig) {
+    const { routes,componentPath, ...routerProp } = routerConfig
+
+    if (!componentPath) return
+
+    if (routerPath) {
+      routerProp.path = path.join(routerPath, routerProp.path)
+    }
+
+    routerProp.component = require(path.resolve(platform === 'MOBILE' ? MOBILE_PATH : PC_PATH, componentPath)).default
+
+    routerArray.push(
+      <Route {...routerProp} key={`${autoKey}_${new Date().getTime()}`} />
+    )
+
+    autoKey++
+
+    if (routes) {
+      routerParse(platform, routes, routerProp.path).forEach(router => routerArray.push(router))
+    }
+  })
+
+  return routerArray
+}
+
+// 将路由配置转换{ path: component }格式
+export function matchComponents(config, routerPath) {
+  if (!config || !config.length) return
+
+  let routerMatch = {}
+
+  config.forEach(function(routerConfig) {
+    const { routes, ...routerProp } = routerConfig
+
+    if (routerPath) {
+      routerProp.path = path.join(routerPath, routerProp.path)
+    }
+    
+    routerMatch[routerProp.path] = routerConfig
+
+    if (routes) {
+      routerMatch = { ...routerMatch, ...matchComponents(routes, routerProp.path) }
+    }
+  })
+
+  return routerMatch
+}
+
+async function responseRender({ platform, store, routerConfig, ctx, next }) {
   let context = {}
   let renderParams = {
     title: '',
@@ -22,7 +76,7 @@ async function responseRender({ store, routerConfig, ctx, next }) {
       <Provider store={store}>
         <StaticRouter location={ctx.url} context={context}>
           <div>
-            {routerParse(routerConfig)}
+            {routerParse(platform, routerConfig)}
           </div>
         </StaticRouter>
       </Provider>
@@ -34,7 +88,6 @@ async function responseRender({ store, routerConfig, ctx, next }) {
 
 function initServerRender(platform) {
   let store = () => {}
-  let matchComponents = router.matchComponents
   let routerConfig = null
   let routerComponents = null
 
@@ -45,18 +98,18 @@ function initServerRender(platform) {
   }
 
   return async (ctx, next) => {
-    let renderComponent = routerComponents ? routerComponents[ctx.url] : null
+    let renderComponent = routerComponents ? routerComponents[ctx.path] : null
 
     if (renderComponent && renderComponent.initData) {
       try {
         await renderComponent.initData()
-        await responseRender({ store, routerConfig, ctx, next })
+        await responseRender({ platform, store, routerConfig, ctx, next })
       } catch (e) {
         // TODO: 500
-        console.log('---------init data error:' + e.toString())
+        console.log('---init data error:' + e.toString())
       }
     } else {
-      await responseRender({ store, routerConfig, ctx, next })
+      await responseRender({ platform, store, routerConfig, ctx, next })
     }
   }
 }
