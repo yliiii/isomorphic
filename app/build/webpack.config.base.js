@@ -66,20 +66,21 @@ export default {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: [ 'css-loader', postCssLoader ]
+          use: [ 'css-loader?minimize', postCssLoader ]
         })
       }, {
         test: /\.styl$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: [ 'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]', postCssLoader ]
+          use: [ 'css-loader?minimize&modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]', postCssLoader ]
         })
       }
     ]
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'common'
+      name: 'vendor',
+      minChunks: Infinity
     }),
     new ExtractTextPlugin({
       filename:  '[name].css',

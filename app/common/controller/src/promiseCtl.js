@@ -11,7 +11,3 @@ export function getWrappedPromise() {
 
   return wrappedPromise
 }
-
-export function wrappedFuncWithPromise(asyncFunc) {
-
-}

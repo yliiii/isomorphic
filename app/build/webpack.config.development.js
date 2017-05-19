@@ -15,6 +15,9 @@ export default {
   },
   plugins: [
     ...baseConfig.plugins,
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.LoaderOptionsPlugin({
+      debug: true
+    })
   ]
 }
