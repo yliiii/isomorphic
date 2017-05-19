@@ -10,13 +10,13 @@ export default [
     componentPath: 'pages/Home', // for server render
     initData: (() => typeof __SERVER__ === 'undefined'
       ? undefined
-      : require('../pages/Home/dispatch').default)(),
+      : require('pages/Home/dispatch').default)(),
     routes: [
       {
         path: 'my',
         exact: true,
         component: (() => typeof __SERVER__ === 'undefined'
-          ? createAsyncComponent(require('bundle-loader?lazy&name=my!../pages/My'))
+          ? createAsyncComponent(require('bundle-loader?lazy&name=my!pages/My'))
           : undefined)(),
         componentPath: 'pages/My' // for server render
       }
