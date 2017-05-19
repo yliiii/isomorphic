@@ -71,6 +71,10 @@ async function responseRender({ platform, store, routerConfig, ctx, next }) {
   let renderParams = {
     title: '',
     dev: ctx.app.env === 'development',
+    gData: {
+      serverWrap: 'server', // server render直出容器
+      clientWrap: 'main' // client render容器
+    },
     reduxData: store.getState(),
     app: ReactDOMServer.renderToString(
       <Provider store={store}>

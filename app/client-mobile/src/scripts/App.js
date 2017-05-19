@@ -6,7 +6,9 @@ import { Provider } from 'react-redux'
 import store from 'store'
 
 import routerConfig from 'router/config'
-import routerParse from 'controller/routerParseCtl'
+import { routerParse } from 'router'
+
+import { getGlobalState } from 'controller/constsCtl'
 
 let history = createHistory()
 
@@ -19,6 +21,6 @@ ReactDOM.render(
       </div>
     </ConnectedRouter>
   </Provider>,
-  document.querySelector('.main-wrapper')
+  document.getElementById(getGlobalState('clientWrap'))
 )
 

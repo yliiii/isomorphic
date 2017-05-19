@@ -13,9 +13,13 @@
     <![endif]-->
   </head>
   <body>
-    <section role="main" class="main-wrapper">
-      <div><%- app %></div>
-    </section>
+    <div id="server" class="main-wrapper"><%- app %></div>
+    <div id="main" class="main-wrapper"></div>
+    <script>
+      try {
+        window.__GDATA__ = <%- JSON.stringify(gData) %>;
+      } catch (e) {}
+    </script>
     <script>
       try {
         window.__REDUX_STATE__ = <%- JSON.stringify(reduxData) %>;
@@ -23,7 +27,7 @@
         console.warn('error in getting server redux data');
       }
     </script>
-    <script src="/dist/common.js"></script>
+    <script src="/dist/vendor.js"></script>
     <script src="/dist/main.js"></script>
   </body>
 </html>

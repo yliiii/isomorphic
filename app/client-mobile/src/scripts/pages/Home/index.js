@@ -17,13 +17,18 @@ class Home extends BaseComponent {
   }
 
   render() {
-    const { nickName, userName } = this.props
+    const { nickName, userName, avatar } = this.props
 
     return (
       <div>
         <span onClick={this.handleClick}>Hello world!!!</span>
         <br/>
         <Link to='/m/my'>{nickName || userName || '我'}的首页</Link>
+        {
+          avatar
+          ? <img src={avatar} alt={nickName || userName} />
+          : null
+        }
       </div>
     )
   }

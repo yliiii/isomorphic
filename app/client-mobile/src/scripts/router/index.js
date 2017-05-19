@@ -1,11 +1,10 @@
 import React from 'react'
-import path from 'path'
 import { Route } from 'react-router-dom'
-
+import Bundle from 'components/LazyLoad'
 
 let autoKey = 0
 
-function routerParse(config, routerPath) {
+export function routerParse(config, routerPath) {
   if (!routerPath) autoKey = 0
   if (!config || !config.length) return
 
@@ -15,7 +14,7 @@ function routerParse(config, routerPath) {
     const { routes, ...routerProp } = routerConfig
 
     if (routerPath) {
-      routerProp.path = path.join(routerPath, routerProp.path)
+      routerProp.path = routerPath + routerProp.path
     }
 
     routerArray.push(
@@ -32,4 +31,10 @@ function routerParse(config, routerPath) {
   return routerArray
 }
 
-export default routerParse
+export const createAsyncComponent = component => () => {
+  return (
+    <Bundle load={component}>
+      { Component => Component ? <Component /> : null }
+    </Bundle>
+  )
+}

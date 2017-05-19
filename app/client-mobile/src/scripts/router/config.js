@@ -1,32 +1,23 @@
-import React from 'react'
-import path from 'path'
-import Bundle from '../components/LazyLoad'
-import HomeData from '../pages/Home/dispatch'
-
-const createComponent = component => () => {
-  return (
-    <Bundle load={component}>
-      { Component => Component ? <Component /> : <div>Loading...</div> }
-    </Bundle>
-  )
-}
+import { createAsyncComponent } from 'router'
 
 export default [
   {
     path: '/m',
     exact: true,
     component: (() => typeof __SERVER__ === 'undefined'
-      ? createComponent(require('bundle-loader?lazy&name=home!pages/Home'))
-      : null)(),
+      ? createAsyncComponent(require('bundle-loader?lazy&name=home!pages/Home'))
+      : undefined)(),
     componentPath: 'pages/Home', // for server render
-    initData: HomeData,
+    initData: (() => typeof __SERVER__ === 'undefined'
+      ? undefined
+      : require('../pages/Home/dispatch').default)(),
     routes: [
       {
         path: 'my',
         exact: true,
         component: (() => typeof __SERVER__ === 'undefined'
-          ? createComponent(require('bundle-loader?lazy&name=my!../pages/My'))
-          : null)(),
+          ? createAsyncComponent(require('bundle-loader?lazy&name=my!../pages/My'))
+          : undefined)(),
         componentPath: 'pages/My' // for server render
       }
     ]
