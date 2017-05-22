@@ -95,7 +95,7 @@ export default {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../..', 'server/templates/main.ejs'),
       filename: '../server/templates/index.ejs',
-      alwaysWriteToDisk: true
+      alwaysWriteToDisk: true // 配合html-webpack-harddisk-plugin插件始终将生成的文件输出到指定目录
     })
   ]
 }
