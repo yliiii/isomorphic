@@ -1,6 +1,7 @@
 import path from 'path'
 import webpack from 'webpack'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 import precss from 'precss'
 import autoprefixer from 'autoprefixer'
 import aliasBaseConfig from './alias.config.base'
@@ -25,8 +26,8 @@ export default {
   output: {
     path: path.resolve(APP_ROOT_DIR, 'dist'),
     publicPath: '/dist',
-    filename: '[name].js',
-    chunkFilename: '[name]-[chunkhash].js'
+    filename: '[name]-[hash:8].js',
+    chunkFilename: '[name]-[chunkhash:8].js'
   },
   resolve: {
     modules: ['node_modules'],
@@ -49,7 +50,6 @@ export default {
             name: 'images/[name]-[hash:base64:5].[ext]?[hash]'
           }
         }]
-        
       }, {
         test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
         use: ['url-loader?limit=10000&mimetype=application/font-woff']
@@ -66,14 +66,17 @@ export default {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: [ 'css-loader?minimize', postCssLoader ]
+          use: [ 'css-loader?', postCssLoader ]
         })
       }, {
         test: /\.styl$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: [ 'css-loader?minimize&modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]', postCssLoader ]
+          use: [ 'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]', postCssLoader ]
         })
+      }, {
+        test: /\.ejs$/,
+        loader: 'raw-loader' // 防止HtmlWebpackPlugin破坏ejs模板语法
       }
     ]
   },
@@ -85,6 +88,14 @@ export default {
     new ExtractTextPlugin({
       filename:  '[name].css',
       allChunks: true
+    }),
+    new webpack.ProvidePlugin({
+        _: "underscore"
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, '../..', 'server/templates/main.ejs'),
+      filename: '../server/templates/index.ejs',
+      alwaysWriteToDisk: true
     })
   ]
 }
