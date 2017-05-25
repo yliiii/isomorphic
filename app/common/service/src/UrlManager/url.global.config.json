@@ -1,4 +1,5 @@
 {
   "module": "global",
-  "getUserInfo": "/user/{userId}"
+  "getUserInfo": "/user?userId={userId}",
+  "getUserList": "/user/list"
 }

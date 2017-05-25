@@ -5,6 +5,7 @@ const router = new Router()
 
 router.prefix('/api')
 
-router.get('/user/:userId', usersCtrl)
+router.get('/user', usersCtrl.info)
+router.get('/user/list', usersCtrl.list)
 
 export default router

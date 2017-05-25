@@ -19,28 +19,25 @@ class Home extends BaseComponent {
   }
 
   render() {
-    const { nickName, userName, avatar } = this.props
+    const { list } = this.props
     const cls = this.componentGetClassNames(styles)
 
     return (
-      <div>
-        <span onClick={this.handleClick}>Hello world!!!</span>
-        <br/>
-        <Link to='/m/my'>{nickName || userName || '我'}的首页</Link>
+      <div className={cls('list')}>
         {
-          avatar
-          ? <img src={avatar} alt={nickName || userName} />
-          : null
+          list.length
+          ? list.map(info => {
+            const { nickName, userId, userName } = info
+
+            return (
+              <div className={cls('item')} key={userId}>
+                {nickName}
+              </div>
+            )
+          }) : null
         }
-        <div className={cls('bg')}>
-          asdf
-        </div>
       </div>
     )
-  }
-
-  handleClick = () => {
-    getUserInfo(333333)
   }
 }
 

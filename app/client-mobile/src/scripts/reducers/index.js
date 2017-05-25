@@ -9,6 +9,12 @@ const reducers = handleActions({
       ...state,
       ...action.payload
     }
+  },
+  [actionTypes.GET_USER_LIST](state, action) {
+    return {
+      ...state,
+      list: [ ...action.payload ]
+    }
   }
 }, initialState)
 

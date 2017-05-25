@@ -8,6 +8,9 @@ class GlobalService extends BaseApiService {
     return this.fetch('getUserInfo', { userId });
   }
 
+  getUserList() {
+    return this.fetch('getUserList');
+  }
 }
 
 export default new GlobalService();
