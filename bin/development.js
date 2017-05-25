@@ -104,11 +104,11 @@ var hotMiddlewareInstance = hotMiddleware(compiler, {
   heartbeat: 10 * 1000
 })
 
-// add middleware
+// add dev server middleware
 app.use(devMiddlewareInstance)
 app.use(hotMiddlewareInstance)
 
-// reg middleware
+// reg server render middleware
 var middlewareRegister = require(path.resolve(ROOT_PATH, 'server/middleware')).default
 middlewareRegister(app, CLIENT)
 

@@ -33,6 +33,7 @@
     "redux": "^3.6.0",
     "redux-actions": "^2.0.3",
     "redux-thunk": "^2.2.0",
+    "sortablejs": "^1.5.1",
     "string-template": "^1.0.0"
   },
   "devDependencies": {

@@ -3,6 +3,9 @@ import BaseComponent from 'ui-base/Component'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getUserInfo } from './dispatch'
+
+import Dragger from 'ui-base/Dragger'
+
 import styles from './styles.styl'
 
 class Home extends BaseComponent {
@@ -24,18 +27,20 @@ class Home extends BaseComponent {
 
     return (
       <div className={cls('list')}>
-        {
-          list.length
-          ? list.map(info => {
-            const { nickName, userId, userName } = info
+        <Dragger>
+          {
+            list.length
+            ? list.map(info => {
+              const { nickName, userId, userName } = info
 
-            return (
-              <div className={cls('item')} key={userId}>
-                {nickName}
-              </div>
-            )
-          }) : null
-        }
+              return (
+                <div className={cls('item')} key={userId}>
+                  <span>{nickName}</span>
+                </div>
+              )
+            }) : null
+          }
+        </Dragger>
       </div>
     )
   }
