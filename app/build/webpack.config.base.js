@@ -42,7 +42,7 @@ export default {
         exclude: /node_modules/,
         use: ['babel-loader']
       }, {
-        test: /\.(png|jpg|gif)$/,
+        test: /\.(png|jpg|jpeg|gif)$/,
         use: [{
           loader: 'url-loader',
           options: {
@@ -66,13 +66,17 @@ export default {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: [ 'css-loader?', postCssLoader ]
+          use: [ 'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]', postCssLoader ]
         })
       }, {
         test: /\.styl$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: [ 'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]', postCssLoader ]
+          use: [
+            'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]',
+            postCssLoader,
+            'stylus-loader'
+          ]
         })
       }, {
         test: /\.ejs$/,
@@ -86,7 +90,7 @@ export default {
       minChunks: Infinity
     }),
     new ExtractTextPlugin({
-      filename:  '[name].css',
+      filename:  '[name]-[chunkhash:8].css',
       allChunks: true
     }),
     new webpack.ProvidePlugin({

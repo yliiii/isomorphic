@@ -1,4 +1,5 @@
-import React, { Component as BaseComponent } from 'react'
+import React from 'react'
+import BaseComponent from 'ui-base/Component'
 import { connect } from 'react-redux'
 
 class My extends BaseComponent {

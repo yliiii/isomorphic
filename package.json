@@ -9,6 +9,8 @@
     "releasem": "cd app/client-mobile && npm run release"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
+    "css-modules-require-hook": "^4.0.6",
     "es6-promise": "^4.1.0",
     "history": "^4.6.1",
     "isomorphic-fetch": "^2.2.1",
@@ -19,6 +21,7 @@
     "koa-router": "^7.1.1",
     "koa-views": "^6.0.2",
     "lodash": "file:node_modules/lodash",
+    "node-stylus-require": "^1.1.0",
     "react": "^15.5.4",
     "react-async-bootstrapper": "^1.1.1",
     "react-async-component": "^1.0.0-beta.3",
@@ -56,7 +59,7 @@
     "bundle-loader": "^0.5.5",
     "clean-webpack-plugin": "^0.1.16",
     "cross-env": "^5.0.0",
-    "css-modules-require-hook": "^4.0.6",
+    "css-loader": "^0.28.2",
     "debug": "file:node_modules/debug",
     "ejs": "^2.5.6",
     "eventsource-polyfill": "^0.9.6",
@@ -78,6 +81,7 @@
     "underscore-template-loader": "^0.7.3",
     "url-loader": "^0.5.8",
     "webpack": "^2.4.1",
+    "webpack-dev-middleware": "^1.10.2",
     "webpack-hot-middleware": "^2.18.0"
   },
   "author": "YLI",

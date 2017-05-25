@@ -1,6 +1,9 @@
-const path = require('path')
+const path = require('path') // node端在babel之前也会使用所以这里不能用import方式
 
 module.exports = {
   controller: path.join(__dirname, '..', 'common/controller/src'),
-  service: path.join(__dirname, '..', 'common/service/src')
+  service: path.join(__dirname, '..', 'common/service/src'),
+  ui: path.join(__dirname, '..', 'common/ui/src/'),
+  "ui-base": path.join(__dirname, '..', 'common/ui/src/base'),
+  utils: path.join(__dirname, '..', 'common/utils/src'),
 }

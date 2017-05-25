@@ -29,12 +29,10 @@ require('babel-polyfill')
 
 // Javascript required hook
 require('babel-core/register')({
+  extensions: [".jsx", ".js"],
   plugins: [
     ["module-resolver", {
       "alias": extend({}, baseAliasConfig, aliasConfig)
-    }],
-    ['babel-plugin-transform-require-ignore', {
-      extensions: ['.styl', '.css']
     }],
     ['inline-replace-variables', {
       __SERVER__: true
@@ -49,7 +47,7 @@ require('css-modules-require-hook')({
       .set('filename', filename)
       .render(),
     camelCase: true,
-    generateScopedName: '[name]__[local]__[hash:base64:8]'
+    generateScopedName: '[local]___[hash:base64:5]'
 })
 
 require('asset-require-hook')({
@@ -59,42 +57,59 @@ require('asset-require-hook')({
 })
 
 var Koa = require('koa')
-var webpack = require('webpack')
-var KWM = require('koa-webpack-middleware')
-var middlewareRegister = require(path.resolve(ROOT_PATH, 'server/middleware')).default
-var config = require('./config').default
-
 var app = new Koa()
-var devMiddleware = KWM.devMiddleware
-var hotMiddleware = KWM.hotMiddleware
+
+// set environment variable
+app.env = ENV
+
 // var chokidar = require('chokidar')
+
+// webpack compiler
+var webpack = require('webpack')
 var webpackConfig = require(path.resolve((CLIENT === 'PC' ? PC_PATH : MOBILE_PATH), 'build/webpack.development')).default
 var compiler = webpack(webpackConfig)
-var devMiddlewareInstance = devMiddleware(compiler, {
-  noInfo: true,
-  watchOptions: {
-    aggregateTimeout: 300,
-    poll: false
-  },
-  publicPath: '/dist',
-  stats: {
-    colors: true
+
+// webpack dev server
+var KWM = require('koa-webpack-middleware')
+var webpackDevMiddleware = require('webpack-dev-middleware')
+var hotMiddleware = KWM.hotMiddleware
+var devMiddlewareInstance = ((function() {
+  const expressMiddleware = webpackDevMiddleware(compiler, {
+    noInfo: false,
+    quiet: false,
+    watchOptions: {
+      aggregateTimeout: 300,
+      poll: true
+    },
+    publicPath: '/dist',
+    stats: {
+      colors: true
+    }
+  })
+
+  return async (ctx, next) => {
+    await expressMiddleware(ctx.req, {
+      end: function(content) {
+        return ctx.body = content
+      },
+      setHeader: function (name, value) {
+        return ctx.set(name, value)
+      }
+    }, next)
   }
-})
+})())
 var hotMiddlewareInstance = hotMiddleware(compiler, {
   log: console.log,
   path: '/__webpack_hmr',
   heartbeat: 10 * 1000
 })
 
-// set environment variable
-app.env = ENV
-
 // add middleware
 app.use(devMiddlewareInstance)
 app.use(hotMiddlewareInstance)
 
 // reg middleware
+var middlewareRegister = require(path.resolve(ROOT_PATH, 'server/middleware')).default
 middlewareRegister(app, CLIENT)
 
 // error logger
@@ -107,6 +122,7 @@ var server = require('http').createServer(app.callback())
 
 // listen after webpack compile
 var isListened = false
+var config = require('./config').default
 compiler._plugins['after-compile'].push(function (compilation, callback) {
   callback()
   !isListened && server.listen(config.port, function () {

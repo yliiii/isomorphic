@@ -3,6 +3,7 @@ import render from './render'
 
 export default function(platform) {
   return async (ctx, next) => {
+    console.log('--------request: ', ctx.url)
     // api server through koa-router
     if (ctx.path.match(/^\/api/)) {
       return await api.routes()(ctx, next)

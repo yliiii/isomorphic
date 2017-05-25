@@ -1,7 +1,9 @@
-import React, { Component as BaseComponent } from 'react'
+import React from 'react'
+import BaseComponent from 'ui-base/Component'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getUserInfo } from './dispatch'
+import styles from './styles.styl'
 
 class Home extends BaseComponent {
   componentWillMount() {
@@ -18,6 +20,7 @@ class Home extends BaseComponent {
 
   render() {
     const { nickName, userName, avatar } = this.props
+    const cls = this.componentGetClassNames(styles)
 
     return (
       <div>
@@ -29,6 +32,9 @@ class Home extends BaseComponent {
           ? <img src={avatar} alt={nickName || userName} />
           : null
         }
+        <div className={cls('bg')}>
+          asdf
+        </div>
       </div>
     )
   }
