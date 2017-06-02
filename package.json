@@ -16,7 +16,7 @@
     "isomorphic-fetch": "^2.2.1",
     "koa": "^2.2.0",
     "koa-bodyparser": "^4.2.0",
-    "koa-convert": "file:node_modules/koa-convert",
+    "koa-convert": "^1.2.0",
     "koa-json": "^2.0.2",
     "koa-router": "^7.1.1",
     "koa-views": "^6.0.2",
