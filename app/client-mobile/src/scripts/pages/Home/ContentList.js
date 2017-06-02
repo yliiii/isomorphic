@@ -18,7 +18,8 @@ export default class ContentList extends BaseComponent {
 
     this.unitData = {}
     this.state = {
-      selectedIds: []
+      selectedIds: [],
+      isChecked: {}
     }
   }
 
@@ -79,12 +80,18 @@ export default class ContentList extends BaseComponent {
 
               return (
                 <div className={cls('item')} data-id={contentId} key={contentId}>
-                  {
-                    isMultiSelect
-                    ? <input type='checkbox' name='content' onClick={(e) => this.handleChecked(e, contentId)} />
-                    : null
-                  }
-                  {`${contentName} - (${contentId})`}
+                  <label>
+                    {
+                      isMultiSelect
+                      ? <input
+                        type='checkbox'
+                        name='content'
+                        checked={!!this.state.isChecked[contentId]}
+                        onChange={(e) => this.handleChecked(e, contentId)} />
+                      : null
+                    }
+                    {`${contentName} - (${contentId})`}
+                  </label>
                 </div>
               )
             }) : null
@@ -94,7 +101,8 @@ export default class ContentList extends BaseComponent {
   }
 
   handleChecked = (e, contentId) => {
-    const selectedIds = this.state.selectedIds
+    const { isChecked } = this.state
+    const selectedIds = [ ...this.state.selectedIds ]
     const target = e.target
     
     if (target.checked) {
@@ -104,11 +112,17 @@ export default class ContentList extends BaseComponent {
       selectedIds.splice(idx, 1)
     }
 
-    this.setState({ selectedIds }, () => this.props.onSelected(this.state.selectedIds))
+    isChecked[contentId] = target.checked
+
+    this.setState({ 
+      selectedIds,
+      isChecked
+    }, () => this.props.onSelected(this.state.selectedIds))
   }
 
   moveTo = ({ unitId, ids }) => {
     reSortContent({ unitId, ids })
+    this.setState({ isChecked: {} })
   }
 
   getSelectedIds = () => {

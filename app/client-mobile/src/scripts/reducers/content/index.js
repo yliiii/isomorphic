@@ -6,7 +6,7 @@ const initialState = {}
 const initialUnit = {
   unitId: 0,
   unitName: '',
-  videoList: []
+  contentList: []
 }
 
 const reducers = handleActions({
@@ -33,8 +33,42 @@ const reducers = handleActions({
     }
   },
   [actionTypes.RESORT_CONTENT](state, action) {
+    const { unitId: toUnitId, ids } = action.payload
+    const list = [ ...state.list ]
+
+    let reSortList = []
+    let reSortContent = []
+    list.forEach(unit => {
+      const { contentList, ...args } = unit
+      
+      let filerArray = []
+      contentList.forEach(content => {
+        const { contentId } = content
+        if (ids.indexOf(contentId) > -1) {
+          reSortContent.push(content)
+        } else {
+          filerArray.push(content)
+        }
+      })
+
+      reSortList.push({
+        ...args,
+        contentList: filerArray
+      })
+    })
+
+    try {
+      reSortList.forEach(unit => {
+        if (unit.unitId === toUnitId) {
+          unit.contentList = unit.contentList.concat(reSortContent)
+          throw new Error('break')
+        }
+      })
+    } catch (e) {}
+
     return {
-      ...state
+      ...state,
+      list: reSortList
     }
   }
 }, initialState)

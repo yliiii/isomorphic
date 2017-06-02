@@ -94,7 +94,7 @@ class Home extends BaseComponent {
   }
 
   renderBottom = () => {
-    const { isMultiSelect, isShowUnitOptional, selectedUnit, selectedUnitId } = this.state
+    const { isMultiSelect, isShowUnitOptional, selectedUnitName, selectedUnitId } = this.state
     const cls = this.componentGetClassNames(styles)
 
     return (
@@ -105,7 +105,7 @@ class Home extends BaseComponent {
             <div className={cls('re-sort')}>
               <div className={cls('unit-optional')} ref='unitOptional'>
                 <div className={cls('optoinal')} onClick={() => this.setState({ isShowUnitOptional: !isShowUnitOptional })}>
-                  {selectedUnit || '请选择单元'}
+                  {selectedUnitName || '请选择单元'}
                 </div>
                 {
                   isShowUnitOptional
@@ -115,6 +115,11 @@ class Home extends BaseComponent {
               </div>
               <div className={cls('btn-area')}>
                 <div className={cls('btn')} onClick={this.moveTo}>确定</div>
+                <div className={cls('btn')} onClick={() => this.setState({
+                  isMultiSelect: false,
+                  selectedUnitId: '',
+                  selectedUnitName: ''
+                })}>取消</div>
               </div>
             </div>
           )
@@ -136,13 +141,11 @@ class Home extends BaseComponent {
               const { unitId, unitName } = unit
 
               return unitId && unitName
-                ? <div className={cls('unit-item')} onClick={() => {
-                  debugger
-                    this.setState({
-                      selectedUnitName: unitName,
-                      selectedUnitId: unitId
-                    })
-                  }} key={unitId}>{unitName}</div>
+                ? <div className={cls('unit-item')} onClick={() => this.setState({
+                    selectedUnitName: unitName,
+                    selectedUnitId: unitId,
+                    isShowUnitOptional: false
+                  })} key={unitId}>{unitName}</div>
                 : null
             })     
           }
@@ -155,11 +158,16 @@ class Home extends BaseComponent {
     return isShowAddUnit ? <AddUnit index={idx} onConfirm={() => this.setState({ isShowAddUnit: false })} ref='createUnit' /> : null
   }
 
-  moveTo = () => {debugger
+  moveTo = () => {
     const { selectedUnitId } = this.state
     const { contentList } = this.refs
 
-    contentList && contentList.moveTo({ unitId: selectedUnitId, ids: contentList.selectedIds() })
+    contentList && contentList.moveTo({ unitId: selectedUnitId, ids: contentList.getSelectedIds() })
+    this.setState({
+      isMultiSelect: false,
+      selectedUnitId: '',
+      selectedUnitName: ''
+    })
   }
 }
 

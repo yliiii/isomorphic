@@ -3,6 +3,7 @@ import classnames from 'classnames/bind'
 import Math from 'utils/Math-extend'
 
 const CLASS_CACHE_NAME = Math.uuid()
+const EVENT_CACHE = Math.uuid()
 
 export default class Component extends BaseComponent {
   constructor() {
@@ -115,7 +116,9 @@ export default class Component extends BaseComponent {
    * @param {functoin} 绑定事件时触发
    * @param {functoin} 解绑事件时触发
    */
-  onClickComponentOutside = ({ component, onClickOutside = () => {}, isBind = false, onBind = () => {}, onUnbind = () => {} }) => {
+  onClickComponentOutside = ({ component, onClickOutside = () => {}, isBind = false, onBind = () => {}, onUnbind = () => {}, isCleanCache = true }) => {
+    if (!component) return
+
     const eventName = 'ontouchend' in document ? 'touchend' : 'click'
     const handle = e => {
       if (!component) return
@@ -136,7 +139,11 @@ export default class Component extends BaseComponent {
 
     isBind ? onBind() : onUnbind()
 
-    document[isBind ? 'addEventListener' : 'removeEventListener'](eventName, handle, true)
+    if (!component[EVENT_CACHE]) {
+      component[EVENT_CACHE] = handle
+    }
+
+    document[isBind ? 'addEventListener' : 'removeEventListener'](eventName, component[EVENT_CACHE], true)
   }
 
   /**
