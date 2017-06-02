@@ -14,50 +14,5 @@ export default {
       "status": 0,
       "time": "2017-05-11T17:04:57+0800"
     }
-  },
-  list: async (ctx, next) => {
-    ctx.type = 'application/json'
-    ctx.body = {
-      "data": [
-        {
-          "nickName": `唉唉唉eee（eee111）`,
-          "userId": "eee111",
-          "userName": "yliiii"
-        },
-        {
-          "nickName": `唉唉唉aaa（aaa111）`,
-          "userId": "aaa111",
-          "userName": "yliiii"
-        },
-        {
-          "nickName": `唉唉唉ddd（ddd111）`,
-          "userId": "ddd111",
-          "userName": "yliiii"
-        },
-        {
-          "nickName": `唉唉唉ccc（ccc111）`,
-          "userId": "ccc111",
-          "userName": "yliiii"
-        },
-        {
-          "nickName": `唉唉唉bbb（bbb111）`,
-          "userId": "bbb111",
-          "userName": "yliiii"
-        },
-        {
-          "nickName": `唉唉唉fff（fff111）`,
-          "userId": "fff111",
-          "userName": "yliiii"
-        },
-        {
-          "nickName": `唉唉唉ggg（ggg111）`,
-          "userId": "ggg111",
-          "userName": "yliiii"
-        }
-      ],
-      "message": "",
-      "status": 0,
-      "time": "2017-05-11T17:04:57+0800"
-    }
   }
 }

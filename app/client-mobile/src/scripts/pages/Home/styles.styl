@@ -1,12 +1,41 @@
+/* 
+ * index 
+ */
+.bottom
+  height 100px
+  width 100%
+  position fixed
+  left 0
+  bottom 0
 
-.list
+.re-sort
+  &:after
+    content ''
+    clear both
+    display block
+    line-height 1
+    height 0
+    overflow hidden
+
+  .unit-optional
+    float left
+  
+  .btn-area
+    float right
+
+/* 
+ * ContentList 
+ */
+.unit-list
   margin 100px auto 0
   width 500px
   position relative
 
-.item
-  border 1px solid #ccc
-  margin 5px 0
-  padding 8px 12px
+.split-line
+  border-bottom 1px solid #ccc
 
+.sort
+  min-height 10px
 
+  .item
+    padding 8px 12px
