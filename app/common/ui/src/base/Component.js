@@ -110,13 +110,13 @@ export default class Component extends BaseComponent {
   /**
    * @description 点击到指定组件的外部区域
    *
-   * @param {DOM Object}
+   * @param {DOM Object} 注意：如果该组件在解绑前移除会导致事件无法解绑
    * @param {functoin} 点击到外部区域触发
    * @param {bool} 是否绑定事件
    * @param {functoin} 绑定事件时触发
    * @param {functoin} 解绑事件时触发
    */
-  onClickComponentOutside = ({ component, onClickOutside = () => {}, isBind = false, onBind = () => {}, onUnbind = () => {}, isCleanCache = true }) => {
+  onClickComponentOutside = ({ component, onClickOutside = () => {}, isBind = false, onBind = () => {}, onUnbind = () => {} }) => {
     if (!component) return
 
     const eventName = 'ontouchend' in document ? 'touchend' : 'click'

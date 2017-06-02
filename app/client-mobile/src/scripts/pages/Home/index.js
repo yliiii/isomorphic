@@ -35,13 +35,13 @@ class Home extends BaseComponent {
     const { contentList, unitOptional } = this.refs
 
     this.onClickComponentOutside({ // 用于关闭创建单元
-      component: findDOMNode(contentList.refs['createUnit']),
+      component: findDOMNode(contentList.refs['customSplit']),
       isBind: isShowAddUnit,
       onBind: () => {
         ('createUnit' in contentList.refs) && contentList.refs['createUnit'].doFocus()
         window.location.href = '#0' // 锚点定位
       },
-      onClickOutside: () => {
+      onClickOutside: () => {debugger
         this.setState({ isShowAddUnit: false })
       }
     })
@@ -49,7 +49,7 @@ class Home extends BaseComponent {
     this.onClickComponentOutside({ // 用于关闭单元选择列表
       component: findDOMNode(unitOptional),
       isBind: isShowUnitOptional,
-      onClickOutside: () => {
+      onClickOutside: () => {debugger
         this.setState({ isShowUnitOptional: false })
       }
     })

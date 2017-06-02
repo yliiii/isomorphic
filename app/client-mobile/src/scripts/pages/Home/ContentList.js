@@ -23,6 +23,12 @@ export default class ContentList extends BaseComponent {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { isMultiSelect } = nextProps
+
+    !isMultiSelect && this.setState({ isChecked: {}, selectedIds: [] })
+  }
+
   render() {
     return this.renderUnitList()
   }
@@ -45,7 +51,7 @@ export default class ContentList extends BaseComponent {
                   ? <div className={cls('title')}>{unitName}</div>
                   : (
                     <div>
-                      {onSplit(idx)}
+                      <div ref='customSplit'>{onSplit(idx)}</div>
                       <div className={cls('split-line')}></div>
                     </div>
                   )
@@ -122,7 +128,7 @@ export default class ContentList extends BaseComponent {
 
   moveTo = ({ unitId, ids }) => {
     reSortContent({ unitId, ids })
-    this.setState({ isChecked: {} })
+    this.setState({ isChecked: {}, onSelected: [] })
   }
 
   getSelectedIds = () => {
