@@ -32,7 +32,7 @@ export default class BaseApiService {
     }
 
     let wrappedPromise = getWrappedPromise()
-    let url = getApiUrl(api, args)
+    let url = getApiUrl(api, args, this.MODULE)
     let timeoutId = setTimeout(() => {
       wrappedPromise.reject(new Error('fetch timeout' + ' ' + url)) // reject on timeout
     }, MAX_WAITING_TIME)

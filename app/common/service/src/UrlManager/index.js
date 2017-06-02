@@ -6,7 +6,7 @@ export function getApiUrl(api, params, module = 'global') {
   if (!configure[module]) configure[module] = require(`./url.${module}.config.json`)
   const apiUrl = configure[module][api]
   
-  return apiUrl ? `http://localhost:3000/api${format(apiUrl, params)}` : ''
+  return apiUrl ? `http://localhost:3000/api/${module || ''}${format(apiUrl, params)}` : ''
 }
 
 export default configure

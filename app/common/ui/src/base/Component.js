@@ -107,6 +107,39 @@ export default class Component extends BaseComponent {
   }
 
   /**
+   * @description 点击到指定组件的外部区域
+   *
+   * @param {DOM Object}
+   * @param {functoin} 点击到外部区域触发
+   * @param {bool} 是否绑定事件
+   * @param {functoin} 绑定事件时触发
+   * @param {functoin} 解绑事件时触发
+   */
+  onClickComponentOutside = ({ component, onClickOutside = () => {}, isBind = false, onBind = () => {}, onUnbind = () => {} }) => {
+    const eventName = 'ontouchend' in document ? 'touchend' : 'click'
+    const handle = e => {
+      if (!component) return
+
+      let target = e.target
+
+      while (target) {
+        if (/^(?:html|body)$/i.test(target.tagName)) {
+          onClickOutside()
+          break
+        }
+
+        if (target === component) break
+
+        target = target.parentNode
+      }
+    }
+
+    isBind ? onBind() : onUnbind()
+
+    document[isBind ? 'addEventListener' : 'removeEventListener'](eventName, handle, true)
+  }
+
+  /**
    * @description 以相同的样式名重写样式，并且缓存减少每次render的开销
    *
    * @param {Object} styles
