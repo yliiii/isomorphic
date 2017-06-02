@@ -128,7 +128,6 @@ export default class ContentList extends BaseComponent {
 
   moveTo = ({ unitId, ids }) => {
     reSortContent({ unitId, ids })
-    this.setState({ isChecked: {}, onSelected: [] })
   }
 
   getSelectedIds = () => {

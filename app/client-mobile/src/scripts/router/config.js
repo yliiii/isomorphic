@@ -19,6 +19,9 @@ export default [
           ? createAsyncComponent(require('bundle-loader?lazy&name=my!pages/My'))
           : undefined)(),
         componentPath: 'pages/My', // for server render
+        initData: (() => typeof __SERVER__ === 'undefined'
+          ? undefined
+          : require('pages/My/dispatch').default)(),
       }
     ]
   }
