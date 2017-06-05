@@ -39,3 +39,11 @@
 
   .item
     padding 8px 12px
+
+    &:global(.drag-start),
+    &:global(.drag-ghost)
+      .more
+        display none
+
+  .more
+    float right

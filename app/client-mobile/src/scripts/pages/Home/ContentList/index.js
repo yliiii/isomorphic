@@ -1,9 +1,13 @@
 import React from 'react'
+import { findDOMNode } from 'react-dom'
+import * as DOM from 'utils/dom-utils'
 import BaseComponent from 'ui-base/Component'
 import Sortable from 'ui-base/Sortable'
-import { reSortContent } from './dispatch'
+import { reSortContent } from '../dispatch'
 
-import styles from './styles.styl'
+import ContentItem from './Item'
+
+import styles from '../styles.styl'
 
 export default class ContentList extends BaseComponent {
   static defaultProps = {
@@ -18,15 +22,15 @@ export default class ContentList extends BaseComponent {
 
     this.unitData = {}
     this.state = {
-      selectedIds: [],
-      isChecked: {}
+      selectedIds: []
     }
   }
+
 
   componentWillReceiveProps(nextProps) {
     const { isMultiSelect } = nextProps
 
-    !isMultiSelect && this.setState({ isChecked: {}, selectedIds: [] })
+    !isMultiSelect && this.setState({ selectedIds: [] }) // 切换多选状态的时候需要重置选中id
   }
 
   render() {
@@ -66,17 +70,26 @@ export default class ContentList extends BaseComponent {
   }
 
   renderContentList = (unitId, list = []) => {
-    const { isMultiSelect } = this.props
+    const { reStyles, isMultiSelect } = this.props
     const cls = this.componentGetClassNames(styles)
     const options = {
       group: unitId || 'unit',
-      disabled: isMultiSelect
+      disabled: isMultiSelect,
+      filter: '.' + cls('more'),
+      onStart: e => {
+        const { item } = e
+        const contentId = item.getAttribute('data-id')
+        
+        if (contentId && this.refs[contentId]) {
+          this.refs[contentId].cleanHover() // 清除悬停事件
+        }
+      }
     }
     
     this.unitData[unitId] = []
     
     return (
-      <Sortable className={cls('sort')} options={options} ref={unitId}>
+      <Sortable reStyles={styles} className={cls('sort')} options={options} ref={unitId}>
         {
           list.length 
             ? list.map(content => {
@@ -84,46 +97,31 @@ export default class ContentList extends BaseComponent {
 
               this.unitData[unitId].push(contentId)
 
-              return (
-                <div className={cls('item')} data-id={contentId} key={contentId}>
-                  <label>
-                    {
-                      isMultiSelect
-                      ? <input
-                        type='checkbox'
-                        name='content'
-                        checked={!!this.state.isChecked[contentId]}
-                        onChange={(e) => this.handleChecked(e, contentId)} />
-                      : null
-                    }
-                    {`${contentName} - (${contentId})`}
-                  </label>
-                </div>
-              )
+              return <ContentItem
+                { ...content }
+                reStyles={reStyles}
+                isMultiSelect={isMultiSelect}
+                onChange={this.handleChecked}
+                ref={contentId}
+                key={contentId}/>
             }) : null
         }
       </Sortable>
     )
   }
 
-  handleChecked = (e, contentId) => {
-    const { isChecked } = this.state
+  handleChecked = (isChecked, content = {}) => {
+    const { contentId } = content
     const selectedIds = [ ...this.state.selectedIds ]
-    const target = e.target
     
-    if (target.checked) {
+    if (isChecked) {
       selectedIds.push(contentId)
     } else {
       let idx = selectedIds.indexOf(contentId)
       selectedIds.splice(idx, 1)
     }
 
-    isChecked[contentId] = target.checked
-
-    this.setState({ 
-      selectedIds,
-      isChecked
-    }, () => this.props.onSelected(this.state.selectedIds))
+    this.setState({ selectedIds }, () => this.props.onSelected(this.state.selectedIds))
   }
 
   moveTo = ({ unitId, ids }) => {

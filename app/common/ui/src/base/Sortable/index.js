@@ -29,8 +29,8 @@ export default class Dragger extends BaseComponent {
     const cls = this.componentGetClassNames(styles, reStyles)
 
     this.sortable = Sortable.create(container, {
-      chosenClass: cls('start'),
-      ghostClass: cls('dragging'),
+      chosenClass: 'drag-start',
+      ghostClass: 'drag-ghost',
       onEnd: () => {
         console.log(this.sortable.toArray())
       },

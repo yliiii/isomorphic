@@ -18,7 +18,7 @@ class Home extends BaseComponent {
       isShowUnitOptional: false, // 是否显示单元选择列表（批量移动）
       isShowAddUnit: false, // 是否显示创建单元
       isMultiSelect: false, // 是否多选
-      selectedUnit: '', // 选中的单元
+      selectedUnitName: '', // 选中的单元
       selectedUnitId: '' // 选中的单元id
     }
   }
@@ -41,7 +41,7 @@ class Home extends BaseComponent {
         ('createUnit' in contentList.refs) && contentList.refs['createUnit'].doFocus()
         window.location.href = '#0' // 锚点定位
       },
-      onClickOutside: () => {debugger
+      onClickOutside: () => {
         this.setState({ isShowAddUnit: false })
       }
     })
@@ -49,7 +49,7 @@ class Home extends BaseComponent {
     this.onClickComponentOutside({ // 用于关闭单元选择列表
       component: findDOMNode(unitOptional),
       isBind: isShowUnitOptional,
-      onClickOutside: () => {debugger
+      onClickOutside: () => {
         this.setState({ isShowUnitOptional: false })
       }
     })
@@ -162,7 +162,8 @@ class Home extends BaseComponent {
     const { selectedUnitId } = this.state
     const { contentList } = this.refs
 
-    contentList && contentList.moveTo({ unitId: selectedUnitId, ids: contentList.getSelectedIds() })
+    selectedUnitId && selectedUnitId != 0 && contentList && contentList.moveTo({ unitId: selectedUnitId, ids: contentList.getSelectedIds() })
+    
     this.setState({
       isMultiSelect: false,
       selectedUnitId: '',
