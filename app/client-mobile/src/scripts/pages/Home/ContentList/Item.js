@@ -15,6 +15,7 @@ export default class ListItem extends BaseComponent {
     super()
 
     this.hoverT = 0
+    this.outT = 0
     this.state = {
       isShowMore: false,
       isChecked: false
@@ -71,13 +72,16 @@ export default class ListItem extends BaseComponent {
 
   handleHover = (status) => {
     clearTimeout(this.hoverT)
+    clearTimeout(this.outT)
 
     if (status) {
       this.hoverT = setTimeout(() => {
         this.setState({ isShowMore: true })
       }, 500)
     } else {
-      this.setState({ isShowMore: false })
+      this.outT = setTimeout(() => {
+        this.setState({ isShowMore: false })
+      }, 200)
     }
   }
 

@@ -18,6 +18,48 @@ export default {
       }
     // }, 5000)
   },
+  removeContent: async (ctx, next) => {
+    const { body = {} } = ctx.request
+    const { contentId } = body
+
+    ctx.type = 'application/json'
+    ctx.body =  {
+      "data": {
+        "result": true
+      },
+      "message": "",
+      "status": 0,
+      "time": "2017-05-26T10:23:17"
+    }
+  },
+  removeUnit: async (ctx, next) => {
+    const { body = {} } = ctx.request
+    const { unitId } = body
+
+    ctx.type = 'application/json'
+    ctx.body =  {
+      "data": {
+        "result": true
+      },
+      "message": "",
+      "status": 0,
+      "time": "2017-05-26T10:23:17"
+    }
+  },
+  updateUnit: async (ctx, next) => {
+    const { body = {} } = ctx.request
+    const { unitId, unitName } = body
+
+    ctx.type = 'application/json'
+    ctx.body =  {
+      "data": {
+        "result": true
+      },
+      "message": "",
+      "status": 0,
+      "time": "2017-05-26T10:23:17"
+    }
+  },
   list: async (ctx, next) => {
     ctx.type = 'application/json'
     ctx.body = {

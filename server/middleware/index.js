@@ -18,9 +18,6 @@ export default (app, client = '') => {
   // template ejs
   app.use(views(templatePath, { extension: 'ejs' }))
 
-  // 500 error
-  koaOnError(app, { template: templatePath + '/500.ejs' })
-
   // render dispatcher
   app.use(router(client))
 
