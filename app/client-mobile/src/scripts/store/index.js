@@ -19,7 +19,7 @@ const createStoreWithMiddleware = applyMiddleware(
 let store = createStoreWithMiddleware(combineReducers({
   ...rootReducer,
   router: routerReducer
-}), window && window.__REDUX_STATE__ ? window.__REDUX_STATE__ : {})
+}), typeof window !== 'undefined' && window.__REDUX_STATE__ ? window.__REDUX_STATE__ : {})
 
 export function configureStore(initialState = {}) {
   store = createStoreWithMiddleware(combineReducers({
