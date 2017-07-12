@@ -112,6 +112,7 @@ function initServerRender(platform) {
         // TODO: 500
         console.log('---init data error:')
         console.log(e)
+        throw e
       }
     } else {
       await responseRender({ platform, store, routerConfig, ctx, next })

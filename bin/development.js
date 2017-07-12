@@ -25,7 +25,7 @@ if (CLIENT === 'MOBILE') {
 console.log('Waiting for webpacking ...')
 
 // Provide custom regenerator runtime and core-js
-require('babel-polyfill')
+// require('babel-polyfill')
 
 // Javascript required hook
 require('babel-core/register')({

@@ -78,7 +78,7 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "transform-runtime": "0.0.0",
-    "uglifyjs-webpack-plugin": "^0.4.3",
+    "uglifyjs-webpack-plugin": "^0.4.6",
     "underscore-template-loader": "^0.7.3",
     "url-loader": "^0.5.8",
     "webpack": "^2.4.1",
