@@ -6,7 +6,8 @@
   "scripts": {
     "startm": "CLIENT=MOBILE NODE_ENV=development node bin/development.js",
     "startp": "CLIENT=PC NODE_ENV=development node bin/development.js",
-    "releasem": "cd app/client-mobile && npm run release"
+    "releasem": "cd app/client-mobile && npm run release",
+    "pm": "CLIENT=MOBILE NODE_ENV=prod node bin/pm2-m.js"
   },
   "dependencies": {
     "classnames": "^2.2.5",
