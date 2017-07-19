@@ -1,13 +1,15 @@
 {
   "apps" : [{
     "name"        : "yli-m",
-    "script"      : "./bin/pm2-m",
+    "script"      : "./bin/pm2-m.js",
     "watch"       : true,
     "env": {
-      "NODE_ENV": "development"
+      "NODE_ENV": "development",
+      "CLIENT": "MOBILE"
     },
     "env_production" : {
-       "NODE_ENV": "production"
+      "NODE_ENV": "production",
+      "CLIENT": "MOBILE"
     }
   }]
 }
