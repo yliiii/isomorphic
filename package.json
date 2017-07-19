@@ -7,7 +7,7 @@
     "startm": "CLIENT=MOBILE NODE_ENV=development node bin/development.js",
     "startp": "CLIENT=PC NODE_ENV=development node bin/development.js",
     "releasem": "cd app/client-mobile && npm run release",
-    "pm": "CLIENT=MOBILE NODE_ENV=prod node bin/pm2-m.js"
+    "pm2": "pm2 start process.json --env production"
   },
   "dependencies": {
     "classnames": "^2.2.5",
