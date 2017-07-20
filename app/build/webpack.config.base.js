@@ -66,14 +66,14 @@ export default {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: [ 'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]', postCssLoader ]
+          use: [ 'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[local]_[folder]', postCssLoader ]
         })
       }, {
         test: /\.styl$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: [
-            'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[local]___[hash:base64:5]',
+            'css-loader?modules&sourceMap&importLoaders=1&localIdentName=[local]_[folder]',
             postCssLoader,
             'stylus-loader'
           ]

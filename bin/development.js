@@ -28,7 +28,7 @@ console.log('Waiting for webpacking ...')
 // require('babel-polyfill')
 
 // Javascript required hook
-require('babel-core/register')({
+require('babel-register')({
   extensions: [".jsx", ".js"],
   plugins: [
     ["module-resolver", {
@@ -42,12 +42,12 @@ require('babel-core/register')({
 
 // Css required hook
 require('css-modules-require-hook')({
-    extensions: ['.styl'],
-    preprocessCss: (css, filename) => require('stylus')(css)
-      .set('filename', filename)
-      .render(),
-    camelCase: true,
-    generateScopedName: '[local]___[hash:base64:5]'
+  extensions: ['.styl'],
+  preprocessCss: (css, filename) => require('stylus')(css)
+    .set('filename', filename)
+    .render(),
+  camelCase: true,
+  generateScopedName: '[local]_[folder]'
 })
 
 require('asset-require-hook')({
