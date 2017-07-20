@@ -8,8 +8,7 @@ export default {
   ...baseConfig,
   entry: {
     // For old browsers
-    polyfill: 'eventsource-polyfill',
-    hot: 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000'
+    polyfill: 'eventsource-polyfill'
   },
   resolve: {
     ...baseConfig.resolve
