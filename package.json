@@ -59,6 +59,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "babel-preset-stage-3": "^6.24.1",
     "babel-register": "^6.24.1",
+    "babel-runtime": "^6.23.0",
     "bundle-loader": "^0.5.5",
     "clean-webpack-plugin": "^0.1.16",
     "cross-env": "^5.0.0",
