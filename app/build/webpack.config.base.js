@@ -25,7 +25,7 @@ export const postCssLoader  = {
 export default {
   output: {
     path: path.resolve(APP_ROOT_DIR, 'dist'),
-    publicPath: '/dist',
+    publicPath: '/dist/',
     filename: '[name]-[hash:8].js',
     chunkFilename: '[name]-[chunkhash:8].js'
   },
