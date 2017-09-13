@@ -93,10 +93,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yliiii/yli-isomorphic.git"
+    "url": "git+https://github.com/yliiii/one-react.git"
   },
   "bugs": {
-    "url": "https://github.com/yliiii/yli-isomorphic/issues"
+    "url": "https://github.com/yliiii/one-react.git/issues"
   },
-  "homepage": "https://github.com/yliiii/yli-isomorphic#readme"
+  "homepage": "https://github.com/yliiii/one-react.git#readme"
 }
