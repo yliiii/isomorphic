@@ -25,7 +25,7 @@ export default class Lazyload extends Component {
 
     if (isInit) {
       const preloadWrapper = document.getElementById(getGlobalState('serverWrap'))
-      preloadWrapper && document.body.removeChild(preloadWrapper) // 移除server render的内容
+      // preloadWrapper && document.body.removeChild(preloadWrapper) // 移除server render的内容
     }
 
     return true

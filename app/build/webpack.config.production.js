@@ -1,15 +1,13 @@
 import path from 'path'
 import webpack from 'webpack'
-import baseConfig, { ROOT_DIR } from './webpack.config.base.js'
 import CleanWebpackPlugin from 'clean-webpack-plugin'
+import HtmlWebpackHarddiskPlugin from 'html-webpack-harddisk-plugin'
 import UglifyJSPlugin from 'uglifyjs-webpack-plugin'
+import baseConfig, { ROOT_DIR } from './webpack.config.base.js'
+
 
 export default {
   ...baseConfig,
-  entry: {
-    // For old browsers
-    polyfill: 'eventsource-polyfill'
-  },
   resolve: {
     ...baseConfig.resolve
   },
@@ -46,7 +44,7 @@ export default {
       // 删除所有的注释
       comments: true,
       compress: {
-        // 在UglifyJs删除没有用到的代码时不输出警告  
+        // 在UglifyJs删除没有用到的代码时不输出警告
         warnings: false,
         // 删除所有的 `console` 语句
         // 还可以兼容ie浏览器
@@ -56,6 +54,7 @@ export default {
         // 提取出出现多次但是没有定义成变量去引用的静态值
         reduce_vars: true
       }
-    })
+    }),
+    new HtmlWebpackHarddiskPlugin() // HtmlWebpackPlugin保持将模板输出到指定目录，防止server render时找不到对应模板文件
   ]
 }

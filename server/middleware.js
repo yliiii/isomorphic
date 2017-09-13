@@ -1,15 +1,16 @@
 import path from 'path'
-import views from 'koa-views'
+import Bodyparser from 'koa-bodyparser'
 import json from 'koa-json'
 import logger from 'koa-logger'
-import koaOnError from 'koa-onerror'
-import convert from 'koa-convert'
-import Bodyparser from 'koa-bodyparser'
-import router from '../../router'
+import views from 'koa-views'
+import serve from 'koa-static'
+import { ROOT_PATH } from 'server-bin/config/path'
+import router from 'server-router'
+import renderer from './renderer'
 
-const templatePath = path.join(__dirname, '..', 'templates')
+const templatePath = path.join(__dirname, 'templates')
 
-export default (app, client = '') => {
+export default app => {
   // reg middlewares
   app.use(Bodyparser())
   app.use(json())
@@ -18,8 +19,11 @@ export default (app, client = '') => {
   // template ejs
   app.use(views(templatePath, { extension: 'ejs' }))
 
-  // render dispatcher
-  app.use(router(client))
+  // renderer dispatcher
+  app.use(router(app, renderer))
+
+  // 静态资源
+  app.use(serve(path.resolve(ROOT_PATH)))
 
   // logger
   if (app.env === 'development') {
@@ -30,10 +34,4 @@ export default (app, client = '') => {
       console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
     })
   }
-
-  // 404
-  // app.use(async (ctx) => {
-  //   ctx.status = 404
-  //   await ctx.render('404')
-  // })
 }

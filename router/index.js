@@ -1,14 +1,20 @@
 import api from './api'
-import render from './render'
 
-export default function(platform) {
+export default function(app, renderer) {
   return async (ctx, next) => {
     console.log('--------request: ', ctx.url)
+
+    // static
+    if (ctx.path.match(/^\/dist/)) {
+      return await next()
+    }
+
     // api server through koa-router
     if (ctx.path.match(/^\/api/)) {
       return await api.routes()(ctx, next)
     }
+
     // others react-router to render
-    await render(platform, ctx, next)
+    await renderer(app, ctx, next)
   }
 }
