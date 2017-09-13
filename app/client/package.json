@@ -1,9 +1,0 @@
-{
-  "name": "client-mobile",
-  "version": "0.0.1",
-  "description": "client mobile",
-  "main": "App.js",
-  "scripts": {
-    "release": "cross-env NODE_ENV=production node -r babel-core/register ../../node_modules/.bin/webpack -p --config ./build/webpack.production.js"
-  }
-}
