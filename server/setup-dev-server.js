@@ -1,5 +1,7 @@
-const path = require('path')
-import { ROOT_PATH, CLIENT_PATH } from 'server-bin/config/path'
+import path from 'path'
+import ENV_CONFIG from 'server-bin/config/env'
+
+const { ROOT_PATH, CLIENT_PATH } = ENV_CONFIG
 
 const webpack = require('webpack')
 const clientWebpackConfig = require(path.resolve(CLIENT_PATH, 'build/webpack.development')).default

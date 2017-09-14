@@ -4,10 +4,11 @@ import json from 'koa-json'
 import logger from 'koa-logger'
 import views from 'koa-views'
 import serve from 'koa-static'
-import { ROOT_PATH } from 'server-bin/config/path'
+import ENV_CONFIG from 'server-bin/config/env'
 import router from 'server-router'
 import renderer from './renderer'
 
+const { ROOT_PATH } = ENV_CONFIG
 const templatePath = path.join(__dirname, 'templates')
 
 export default app => {

@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 const Koa = require('koa')
 const path = require('path')
-const ENV = process.env.NODE_ENV
-const CLIENT = process.env.CLIENT
-const { ROOT_PATH, CLIENT_PATH } = require('./config/path')
+const ENV_CONF = require('./config/env')
+const ENV = ENV_CONF.ENV
+const CLIENT = ENV_CONF.CLIENT
+const ROOT_PATH = ENV_CONF.ROOT_PATH
+const CLIENT_PATH = ENV_CONF.CLIENT_PATH
 
 function extend(target) {
     var sources = [].slice.call(arguments, 1);

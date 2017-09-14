@@ -3,7 +3,9 @@ import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import { Route, StaticRouter } from 'react-router'
 import { Provider } from 'react-redux'
-import { ROOT_PATH, CLIENT_PATH } from 'server-bin/config/path'
+import ENV_CONFIG from 'server-bin/config/env'
+
+const { ROOT_PATH, CLIENT_PATH } = ENV_CONFIG
 
 // 将路由配置转换为<Route>
 let autoKey = 0
@@ -22,7 +24,7 @@ export function routerParse(config, routerPath) {
       routerProp.path = path.join(routerPath, routerProp.path)
     }
 
-    routerProp.component = component.default
+    routerProp.component = component().default
 
     routerArray.push(
       <Route {...routerProp} key={`${autoKey}_${new Date().getTime()}`} />
@@ -94,8 +96,8 @@ function initServerRender(app) {
 
     if (renderComponent && renderComponent.initData) {
       try {
-        let iniData = renderComponent.initData.default
-        await iniData()
+        let initData = await renderComponent.initData()
+        await initData.default()
         await responseRender({ store, routerConfig, ctx, next })
       } catch (e) {
         // TODO: 500

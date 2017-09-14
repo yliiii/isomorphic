@@ -4,7 +4,7 @@
   "description": "webpack2&react&react-router v4&koa2",
   "main": "app.js",
   "scripts": {
-    "start": "CLIENT=CLIENT NODE_ENV=production node bin/server.js",
+    "start": "CLIENT=CLIENT NODE_ENV=server node bin/server.js",
     "dev": "CLIENT=CLIENT NODE_ENV=development node bin/server.js",
     "build:client": "cross-env NODE_ENV=production node -r babel-core/register ./node_modules/.bin/webpack -p --config ./app/client/build/webpack.production.js",
     "pm2": "pm2 start process.json --env production"
