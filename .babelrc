@@ -1,16 +1,10 @@
 {
   "presets": ["es2015", "stage-0", "stage-3", "react"],
   "plugins": [
+    "dynamic-import-node-sync",
     "syntax-dynamic-import",
     "transform-async-to-generator",
     "transform-regenerator",
     "transform-runtime"
-  ],
-  "env": {
-    "server": {
-      "plugins": [
-        "dynamic-import-node-sync"
-      ]
-    }
-  }
+  ]
 }
